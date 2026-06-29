@@ -1,0 +1,12 @@
+{
+  "rewrites": [
+    {
+      "source": "/oferta-especial",
+      "destination": "/index.html"
+    },
+    {
+      "source": "/oferta-especial/",
+      "destination": "/index.html"
+    }
+  ]
+}

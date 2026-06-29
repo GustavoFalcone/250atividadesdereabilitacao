@@ -308,19 +308,24 @@ function ExitPlanList({ items }) {
   );
 }
 
-function ExitIntentModal({ onClose, onCheckout }) {
+function ExitOfferPage() {
   const completeExitItems = upsellItems.map((item) => ['yes', item]);
 
-  return (
-    <ModalShell onClose={onClose} variant="exitOverlay">
-      <div className="exitModal">
-        <div className="exitHeader">
-          <p className="modalKicker">Oferta especial</p>
-          <h2>Antes de sair, escolha com desconto</h2>
-          <p>Você pode acessar o material com um valor especial agora.</p>
-        </div>
+  const handleCheckoutClick = () => {
+    window.sessionStorage.setItem('checkout-clicked', 'true');
+  };
 
-        <div className="exitPlans">
+  return (
+    <>
+      <CountdownBar />
+      <main className="exitPageShell">
+        <section className="exitPageHero reveal isVisible">
+          <p className="modalKicker">Oferta especial</p>
+          <h1>Antes de sair, escolha com desconto</h1>
+          <p className="subheadline">Você pode acessar o material com um valor especial agora.</p>
+        </section>
+
+        <section className="exitPagePlans">
           <article className="exitBasicPlan">
             <h3>Plano Básico</h3>
             <p>Para uma necessidade pontual</p>
@@ -330,7 +335,7 @@ function ExitIntentModal({ onClose, onCheckout }) {
             <a
               className="exitBasicButton"
               href={CHECKOUTS.basicDownsell}
-              onClick={() => onCheckout('basicDownsell')}
+              onClick={handleCheckoutClick}
             >
               Quero o Básico por R$ 5,90
             </a>
@@ -353,24 +358,24 @@ function ExitIntentModal({ onClose, onCheckout }) {
             <a
               className="exitCompleteButton"
               href={CHECKOUTS.completeDownsell}
-              onClick={() => onCheckout('completeDownsell')}
+              onClick={handleCheckoutClick}
             >
               Quero o Completo por R$ 17,90
             </a>
           </article>
-        </div>
+        </section>
 
-        <button className="continueBrowsing" type="button" onClick={onClose}>
+        <a className="exitReturnLink" href="/">
           Continuar navegando
-        </button>
-      </div>
-    </ModalShell>
+        </a>
+      </main>
+    </>
   );
 }
 
-export default function App() {
+function LandingPage() {
+  const isExitOfferPage = false;
   const [isBasicUpsellOpen, setIsBasicUpsellOpen] = useState(false);
-  const [isExitIntentOpen, setIsExitIntentOpen] = useState(false);
   const [hasClickedCheckout, setHasClickedCheckout] = useState(false);
 
   const markCheckoutClick = () => {
@@ -378,22 +383,17 @@ export default function App() {
     window.sessionStorage.setItem('checkout-clicked', 'true');
   };
 
-  const closeExitIntent = () => {
-    window.sessionStorage.setItem('exit-intent-seen', 'true');
-    setIsExitIntentOpen(false);
-  };
-
-  const openExitIntent = () => {
-    const alreadySeen = window.sessionStorage.getItem('exit-intent-seen') === 'true';
+  const redirectToExitOffer = () => {
+    const alreadyRedirected = window.sessionStorage.getItem('exit-redirect-used') === 'true';
     const checkoutClicked =
       hasClickedCheckout || window.sessionStorage.getItem('checkout-clicked') === 'true';
 
-    if (alreadySeen || checkoutClicked || isBasicUpsellOpen || isExitIntentOpen) {
+    if (isExitOfferPage || alreadyRedirected || checkoutClicked || isBasicUpsellOpen) {
       return false;
     }
 
-    window.sessionStorage.setItem('exit-intent-seen', 'true');
-    setIsExitIntentOpen(true);
+    window.sessionStorage.setItem('exit-redirect-used', 'true');
+    window.location.assign('/oferta-especial/');
     return true;
   };
 
@@ -428,13 +428,13 @@ export default function App() {
   useEffect(() => {
     const handleMouseLeave = (event) => {
       if (event.clientY <= 10) {
-        openExitIntent();
+        redirectToExitOffer();
       }
     };
 
     document.addEventListener('mouseleave', handleMouseLeave);
     return () => document.removeEventListener('mouseleave', handleMouseLeave);
-  }, [hasClickedCheckout, isBasicUpsellOpen, isExitIntentOpen]);
+  }, [hasClickedCheckout, isBasicUpsellOpen]);
 
   useEffect(() => {
     const stateKey = 'landing-exit-guard';
@@ -444,16 +444,12 @@ export default function App() {
     }
 
     const handlePopState = () => {
-      const didOpen = openExitIntent();
-
-      if (didOpen) {
-        window.history.pushState({ [stateKey]: true }, '', window.location.href);
-      }
+      redirectToExitOffer();
     };
 
     window.addEventListener('popstate', handlePopState);
     return () => window.removeEventListener('popstate', handlePopState);
-  }, [hasClickedCheckout, isBasicUpsellOpen, isExitIntentOpen]);
+  }, [hasClickedCheckout, isBasicUpsellOpen]);
 
   return (
     <>
@@ -638,9 +634,16 @@ export default function App() {
           onCheckout={markCheckoutClick}
         />
       )}
-      {isExitIntentOpen && (
-        <ExitIntentModal onClose={closeExitIntent} onCheckout={markCheckoutClick} />
-      )}
     </>
   );
+}
+
+export default function App() {
+  const isExitOfferPage = window.location.pathname.replace(/\/+$/, '') === '/oferta-especial';
+
+  if (isExitOfferPage) {
+    return <ExitOfferPage />;
+  }
+
+  return <LandingPage />;
 }
