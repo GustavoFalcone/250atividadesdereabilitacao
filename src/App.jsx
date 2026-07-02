@@ -441,6 +441,15 @@ function LandingPage() {
   }, []);
 
   useEffect(() => {
+    const openBasicUpsell = () => {
+      setIsBasicUpsellOpen(true);
+    };
+
+    window.addEventListener('landing:open-basic-upsell', openBasicUpsell);
+    return () => window.removeEventListener('landing:open-basic-upsell', openBasicUpsell);
+  }, []);
+
+  useEffect(() => {
     const elements = document.querySelectorAll(
       '.reveal, .audienceCard, .bonusCard, .basicCard, .completeCard, .faqStack details'
     );
@@ -591,6 +600,8 @@ function LandingPage() {
             <button
               className="secondaryButton"
               type="button"
+              data-open-basic-upsell
+              data-no-initiate-checkout
               onClick={() => setIsBasicUpsellOpen(true)}
             >
               Quero o Plano Básico
