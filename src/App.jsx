@@ -547,7 +547,7 @@ function LandingPage() {
             loading="eager"
             fetchPriority="high"
           />
-          <CTA className="pulseCta" onClick={handlePlansClick}>Quero acessar o material</CTA>
+          <CTA className="pulseCta" onClick={handlePlansClick}>Acessar as Atividades</CTA>
           <p className="accessNote">Acesso digital imediato</p>
         </section>
 
