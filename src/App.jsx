@@ -15,10 +15,10 @@ const imageSizes = {
 };
 
 const CHECKOUTS = {
-  basicFull: 'https://zuckpay.com.br/checkout/250-atividades-de-reabilitacao-pos-avc-plano-basico',
-  completeFull: 'https://zuckpay.com.br/checkout/250-atividades-de-reabilitacao-pos-avc-plano-completo',
-  basicDownsell: 'https://zuckpay.com.br/checkout/250-atividades-de-reabilitacao-pos-avc-plano-basico-1',
-  completeDownsell: 'https://zuckpay.com.br/checkout/250-atividades-de-reabilitacao-pos-avc-plano-completo-1'
+  basicFull: 'https://www.zuckpay.com.br/checkout/250-atividades-de-reabilitacao-pos-avc-plano-basico',
+  completeFull: 'https://www.zuckpay.com.br/checkout/250-atividades-de-reabilitacao-pos-avc-plano-completo',
+  basicDownsell: 'https://www.zuckpay.com.br/checkout/250-atividades-de-reabilitacao-pos-avc-plano-basico-1',
+  completeDownsell: 'https://www.zuckpay.com.br/checkout/250-atividades-de-reabilitacao-pos-avc-plano-completo-1'
 };
 
 const audienceCards = [
@@ -636,6 +636,7 @@ function LandingPage() {
               type="button"
               data-open-basic-upsell
               data-no-initiate-checkout
+              data-utmify-ignore
               onClick={() => setIsBasicUpsellOpen(true)}
             >
               Quero o Plano Básico

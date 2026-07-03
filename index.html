@@ -6,17 +6,18 @@
     <meta name="description" content="+250 atividades prontas para imprimir e apoiar coordenação, escrita, atenção e atividades simples do dia a dia em reabilitação pós-AVC." />
     <link rel="preconnect" href="https://cdn.utmify.com.br" crossorigin />
     <link rel="dns-prefetch" href="//cdn.utmify.com.br" />
-    <link rel="dns-prefetch" href="//zuckpay.com.br" />
+    <link rel="dns-prefetch" href="//www.zuckpay.com.br" />
     <link rel="preload" as="image" href="/assets/hero-material-opt.jpg" fetchpriority="high" />
     <title>+250 atividades de coordenação e escrita pós-AVC</title>
     <script>
-      document.addEventListener(
+      window.addEventListener(
         "click",
         function (event) {
           var trigger = event.target.closest && event.target.closest("[data-open-basic-upsell]");
           if (!trigger) return;
           event.preventDefault();
           event.stopImmediatePropagation();
+          event.stopPropagation();
           window.dispatchEvent(new CustomEvent("landing:open-basic-upsell"));
         },
         true
