@@ -1,7 +1,18 @@
 import React, { useEffect, useRef, useState } from 'react';
 
 const asset = (name) => `/assets/${name}`;
-const completeOfferImage = asset('plano-completo-novo.png');
+const completeOfferImage = asset('plano-completo-novo-opt.png');
+
+const imageSizes = {
+  'hero-material-opt.jpg': [533, 800],
+  'demo-pages-opt.jpg': [1100, 825],
+  'bonus-guia-uso-opt.jpg': [1100, 825],
+  'bonus-ficha-controle-opt.jpg': [1100, 825],
+  'bonus-materiais-opt.jpg': [1100, 825],
+  'bonus-certificado-opt.jpg': [1100, 825],
+  'plano-completo-novo-opt.png': [520, 325],
+  'checkout-seguranca-opt.png': [560, 206]
+};
 
 const CHECKOUTS = {
   basicFull: 'https://zuckpay.com.br/checkout/250-atividades-de-reabilitacao-pos-avc-plano-basico',
@@ -172,11 +183,15 @@ function CTA({ children = 'Quero acessar o material', className = '', href = '#c
 }
 
 function ImageBlock({ src, alt, className = '', loading = 'lazy', fetchPriority = 'auto' }) {
+  const [width, height] = imageSizes[src] || [];
+
   return (
     <figure className={`imageBlock ${className}`}>
       <img
         src={asset(src)}
         alt={alt}
+        width={width}
+        height={height}
         loading={loading}
         decoding="async"
         fetchPriority={fetchPriority}
@@ -282,7 +297,10 @@ function BasicPlanUpsellModal({ onClose, onCheckout }) {
           className="modalProductImage"
           src={completeOfferImage}
           alt="Plano completo com material e bônus"
+          width="520"
+          height="325"
           loading="lazy"
+          decoding="async"
         />
         <ModalBenefitList items={upsellItems} />
         <div className="upsellPrice">R$ 17,90</div>
@@ -360,7 +378,10 @@ function ExitOfferPage({ onContinue }) {
               className="exitProductImage"
               src={completeOfferImage}
               alt="Plano completo com material e bônus"
+              width="520"
+              height="325"
               loading="lazy"
+              decoding="async"
             />
             <div className="exitOldPrice light">De R$ 27,90</div>
             <div className="exitPrice">R$ 17,90</div>
@@ -627,7 +648,7 @@ function LandingPage() {
             <h3>Plano Completo</h3>
             <p className="planSub">Para ter o material completo com bônus</p>
             <ImageBlock
-              src="plano-completo-novo.png"
+              src="plano-completo-novo-opt.png"
               alt="Imagem do material completo com bônus"
               className="planProductImage"
             />
@@ -644,7 +665,7 @@ function LandingPage() {
               ))}
             </ul>
             <ImageBlock
-              src="checkout-seguranca.png"
+              src="checkout-seguranca-opt.png"
               alt="Compra segura e acesso digital"
               className="checkoutSecureImage"
             />
@@ -660,7 +681,7 @@ function LandingPage() {
 
         <section className="section guarantee reveal">
           <div className="guaranteeSeal">
-            <img src={asset('garantia-7-dias.png')} alt="Selo de garantia de 7 dias" loading="lazy" />
+            <img src={asset('garantia-7-dias-opt.png')} alt="Selo de garantia de 7 dias" width="240" height="240" loading="lazy" decoding="async" />
           </div>
           <h2>Garantia simples de 7 dias</h2>
           <p>

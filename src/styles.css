@@ -290,6 +290,13 @@ figure {
   padding: clamp(46px, 7vw, 86px) var(--page-gutter);
 }
 
+.section,
+.priceSection,
+.finalCta {
+  content-visibility: auto;
+  contain-intrinsic-size: auto 820px;
+}
+
 .section > h2,
 .priceIntro h2,
 .finalCta > h2 {
